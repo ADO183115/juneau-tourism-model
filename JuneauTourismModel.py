@@ -49,10 +49,10 @@ def calculate_V(omega_4, P_scaled_t, omega_5, E_t, omega_6, Q_t):
 # --- 2. Parameters ---
 
 params = {
-    "T_years" : 5,
+    "Y" : 5,
     "T_initial" : 1.67, # Given
-    "E_initial" : 0.5, # Assumed that environment is at 50% of optimal point
     "T_max" : 1.2, "T_opt" : 1.5, # Assumed
+    "E_initial" : 0.5, # Assumed that environment is at 50% of optimal point
     "g_base" : 0.03, # Assumed
     "alpha" : 0.03, "eta" : 0.005, "gamma" : 0.5, # Assumed
     "revenue_per_tourist" : 191.6168, # Calculated
@@ -69,29 +69,29 @@ params = {
 def run_simulation(controls, params):
 
     # Set values
-    T_years = params["T_years"]
+    Y = params["Y"]
 
-    tau_t = controls[:T_years]
-    lambd_t = controls[T_years:]
+    tau_t = controls[:Y]
+    lambd_t = controls[Y:]
 
-    T_t = np.zeros(T_years)
-    E_t = np.zeros(T_years)
-    Q_t = np.zeros(T_years)
-    P_t = np.zeros(T_years)
+    T_t = np.zeros(Y)
+    E_t = np.zeros(Y)
+    Q_t = np.zeros(Y)
+    P_t = np.zeros(Y)
 
-    E_sub_t = np.zeros(T_years)
-    G_t = np.zeros(T_years)
-    M_t = np.zeros(T_years)
-    g_t = np.zeros(T_years)
-    P_scaled_t = np.zeros(T_years)
+    E_sub_t = np.zeros(Y)
+    G_t = np.zeros(Y)
+    M_t = np.zeros(Y)
+    g_t = np.zeros(Y)
+    P_scaled_t = np.zeros(Y)
 
-    V_t = np.zeros(T_years)
+    V_t = np.zeros(Y)
 
     T_current = params["T_initial"]
     E_current = params["E_initial"]
 
     # Run the model for the amount of years that need to be calculated
-    for t in range(T_years):
+    for t in range(Y):
         tau = tau_t[t]
         lambd = lambd_t[t]
         
@@ -145,13 +145,13 @@ def objective_function(controls, params):
 
 # --- 5. Optimization ---
 
-T_years = params["T_years"]
+Y = params["Y"]
 
 # Initial Guess (start with 5% tax and 20% investment)
-initial_guess = np.concatenate([np.ones(T_years) * 0.05, np.ones(T_years) * 0.2])
+initial_guess = np.concatenate([np.ones(Y) * 0.05, np.ones(Y) * 0.2])
 
 # Bounds: Tau (0, 1), Lambda (0, 1)
-bounds = [(0.0, 1.0)] * (2 * T_years)
+bounds = [(0.0, 1.0)] * (2 * Y)
 
 # Simulate and optimize the model
 print("Optimizing...")
@@ -160,17 +160,17 @@ result = minimize(objective_function, initial_guess, args=(params,), method="L-B
 if result.success:
     print("Optimization Successful!")
     optimal_controls = result.x
-    tau_opt = optimal_controls[:T_years]
-    lambd_opt = optimal_controls[T_years:]
+    tau_opt = optimal_controls[:Y]
+    lambd_opt = optimal_controls[Y:]
     
     # Run one last time to get the data for printing
     T_fin, E_fin, Q_fin, P_fin, E_sub_t, G_fin, M_fin, g_fin, P_scaled_fin, V_fin = run_simulation(optimal_controls, params)
 
-    data = [[t+1, T_fin[t], E_fin[t], P_fin[t], Q_fin[t], V_fin[t]] for t in range(T_years)]
+    data = [[t+1, T_fin[t], E_fin[t], P_fin[t], Q_fin[t], V_fin[t]] for t in range(Y)]
     headers = ["Year", "Tourists T", "Environment E", "Profit P", "Resident Satisfaction Q", "Optimization Value V"]
     print(tabulate(data, headers=headers, tablefmt="grid", floatfmt=".4f"))
 
-    data = [[t+1, tau_opt[t], lambd_opt[t], G_fin[t], M_fin[t], E_sub_t[t], g_fin[t], P_scaled_fin[t]] for t in range(T_years)]
+    data = [[t+1, tau_opt[t], lambd_opt[t], G_fin[t], M_fin[t], E_sub_t[t], g_fin[t], P_scaled_fin[t]] for t in range(Y)]
     headers = ["Year", "tau", "lambda", "Government Revenue from Tax G", "Government Expenditure on Tourism M", "E_sub_t", "g", "P_scaled"]
     print(tabulate(data, headers=headers, tablefmt="grid", floatfmt=".4f"))
 else:
