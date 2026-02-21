@@ -4,14 +4,14 @@
 A multi-objective optimization model of the tourism industry in Juneau, Alaska. Implements a discrete-time state-space framework and uses Scipy's optimization library. Optimizaes taxation and investment rate while balancing objectives such as profit, environment, and resident satisfaction. Designed to identify sustainable equilibrium points.
 
 # State Variables
-T: # of tourists
+'''T: # of tourists
 E: environmental index
 Q: resident satisfaction
 R: revenue from tourism 
 G: government revenue from R
 M: government investment into tourism development
 g: growth rate of T
-E_sub: environmental index after applying government intervention
+E_sub: environmental index after applying government intervention'''
 
 # Control Variables
 lambda: investment rate into tourism industry from government revenue
