@@ -58,8 +58,8 @@ $$G_t = \tau_t \cdot R_t$$
 $$R_t = r \cdot T_t$$
 
 ## Environmental Model E
-$$E_{t+1} = E_{sub,t} + z(1 - E_{sub,t}) - h\left(\frac{T_t}{T_{max}}\right)$$\
-### Calculate $$E_{sub,t}
+$$E_{t+1} = E_{sub,t} + z(1 - E_{sub,t}) - h\left(\frac{T_t}{T_{max}}\right)$$
+### Calculate **$E_{sub,t}$**
 $$E_{sub,t} = E_t + \alpha M_t$$
 
 ## Resident Satisfaction Model Q
