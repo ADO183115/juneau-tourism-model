@@ -9,8 +9,8 @@ def update_T(T_t, g_t_future, gamma, tau):
     return T_t * (1 + g_t_future - gamma * tau)
 
 # Model 2: Environmental Impact
-def update_E(E_sub_t, recovery_rate, h, T_t, T_max):
-    return E_sub_t + recovery_rate * (1 - E_sub_t) - h * (T_t / T_max)
+def update_E(E_sub_t, z, h, T_t, T_max):
+    return E_sub_t + z * (1 - E_sub_t) - h * (T_t / T_max)
 
 # Model 3: Resident Satisfaction
 def calculate_Q(omega_1, T_t, T_opt, omega_2, E_t, omega_3, tau):
@@ -22,8 +22,8 @@ def calculate_g(g_base, eta, M_t):
     return g_base + eta * (M_t ** 0.5)
 
 # Calculate total tourism revenue R
-def calculate_R(revenue_per_tourist, T_t):
-    return revenue_per_tourist * T_t
+def calculate_R(r, T_t):
+    return r * T_t
 
 # Calculate government revenue from tourism taxation G
 def calculate_G(tau, R_t):
@@ -55,8 +55,8 @@ params = {
     "E_initial" : 0.5, # Assumed that environment is at 50% of optimal point
     "g_base" : 0.03, # Assumed
     "alpha" : 0.03, "eta" : 0.005, "gamma" : 0.5, # Assumed
-    "revenue_per_tourist" : 191.6168, # Calculated
-    "recovery_rate" : 0.005, # Assumed
+    "r" : 191.6168, # Calculated
+    "z" : 0.005, # Assumed
     "h" : 0.2, # Assumed
     "omega_1" : 1.0, "omega_2" : 0.2, "omega_3" : 0.2, # Assumed
     "omega_4" : 0.2, "omega_5" : 0.2, "omega_6" : 0.6, # Assumed
@@ -96,7 +96,7 @@ def run_simulation(controls, params):
         lambd = lambd_t[t]
         
         # Tourism Model
-        R = calculate_R(params["revenue_per_tourist"], T)
+        R = calculate_R(params["r"], T)
         G = calculate_G(tau, R)
         M = calculate_M(lambd, G)
 
@@ -128,7 +128,7 @@ def run_simulation(controls, params):
 
         # Calculate Next Step
         T = update_T(T, g, params["gamma"], tau)
-        E = update_E(E_sub, params["recovery_rate"], params["h"], T_t[t], params["T_max"])
+        E = update_E(E_sub, params["z"], params["h"], T_t[t], params["T_max"])
 
     return T_t, E_t, Q_t, P_t, E_sub_t, G_t, M_t, g_t, P_scaled_t, V_t
 
