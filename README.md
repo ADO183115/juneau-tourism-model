@@ -45,27 +45,25 @@ omega_5: weight assigned to environmental index when calculating V\
 omega_6: weight assigned to resident satisfaction when calculating V
 
 # Simulation Model
+
 ## Tourist Demand Model T
 $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
+### Calculate Growth Rate g
+$$g_t = g_{base} + \eta \sqrt{M_t}$$
+### Calcilate Government Expenditure on Tourism Development M
+$$M_t = \lambda_t \cdot G_t$$
+### Calculate Government Revenue from Tourism Taxation G
+$$G_t = \tau_t \cdot R_t$$
+### Calculate Total Tourism Revenue R
+$$R_t = r \cdot T_t$$
 
 ## Environmental Model E
 $$E_{t+1} = E_{sub,t} + z(1 - E_{sub,t}) - h\left(\frac{T_t}{T_{max}}\right)$$\
+### Calculate $$E_{sub,t}
 $$E_{sub,t} = E_t + \alpha M_t$$
 
 ## Resident Satisfaction Model Q
 $$Q_t = \omega_1 \left( 1 - \frac{|T_t - T_{opt}|}{T_{opt}} \right) + \omega_2 E_t - \omega_3 \tau_t$$
-
-## Calculate Growth Rate g
-$$g_t = g_{base} + \eta \sqrt{M_t}$$
-
-## Calculate Total Tourism Revenue R
-$$R_t = r \cdot T_t$$
-
-## Calculate Government Revenue from Tourism Taxation G
-$$G_t = \tau_t \cdot R_t$$
-
-## Calcilate Government Expenditure on Tourism Development M
-$$M_t = \lambda_t \cdot G_t$$
 
 ## Calculate Total Tourism Profit P
 $$P_t = R_t - (C_{fixed} + C_{variable} \cdot T_t)$$
