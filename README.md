@@ -5,15 +5,20 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 
 # 2. Variables and Parameters
 
-### **State and Control Variables**
+### **State Variables**
 | Symbol | Definition | Symbol | Definition |
 | :--- | :--- | :--- | :--- |
-| **$T_t$** | # of tourists | **$P_t$** | Total tourism profit |
-| **$E_t$** | Environmental index | **$g_t$** | Growth rate of $T$ |
-| **$Q_t$** | Resident satisfaction | **$E_{sub,t}$** | Post-intervention environment |
-| **$R_t$** | Revenue from tourism | **$\lambda_t$** | Investment rate (Control) |
-| **$G_t$** | Government revenue | **$\tau_t$** | Tax Rate (Control) |
-| **$M_t$** | Govt. investment | | |
+| **$T_t$** | # of tourists | **$M_t$** | Government investment |
+| **$E_t$** | Environmental index | **$P_t$** | Total tourism profit |
+| **$Q_t$** | Resident satisfaction | **$g_t$** | Growth rate of $T$ |
+| **$R_t$** | Revenue from tourism | **$E_{sub,t}$** | Post government intervention E |
+| **$G_t$** | Government revenue | | |
+
+### **Control Variables**
+| Symbol | Definition |
+| :--- | :--- |
+|**$\lambda_t$** | Investment rate |
+| **$\tau_t$** | Tax Rate |
 
 ### **Model Parameters**
 | Category | Parameter | Definition |
@@ -21,38 +26,52 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 | **Initial** | **$T_{initial}, E_{initial}$** | Initial tourist volume and environmental state |
 | **Baselines** | **$Y, g_{base}, r$** | Simulation years, base growth, and revenue per tourist |
 | **Thresholds** | **$T_{max}, T_{opt}$** | Carrying capacity and optimal satisfaction level |
-| **Sensitivities** | **$\alpha, \eta, \gamma, z, h$** | Impact coefficients for $E_{sub}, g, \tau,$ recovery, and decay |
-| **Costs** | **$c_{fixed}, c_{variable}$** | Fixed and variable operational costs |
+| **Sensitivities** | **$\alpha, \eta, \gamma, z, h$** | Impact/sensitivity coefficients |
+| **Costs** | **$c_{fixed}, c_{variable}$** | Fixed and variable tourism operational costs |
 
 ### **Optimization Weights ($\omega$)**
 | Target | Weights | Definition |
 | :--- | :--- | :--- |
-| **Satisfaction ($Q$)** | **$\omega_1, \omega_2, \omega_3$** | Weights for $T$ volume gap, environment, and tax burden |
-| **Objective ($V$)** | **$\omega_4, \omega_5, \omega_6$** | Weights for profit $P$, environment, and resident $Q$ |
+| **Resident Satisfaction $Q$** | **$\omega_1, \omega_2, \omega_3$** | Weights for $T$ volume gap, environment, and tax burden |
+| **Objective Function $V$** | **$\omega_4, \omega_5, \omega_6$** | Weights for profit $P$, environment, and resident $Q$ |
 
 # 3. Simulation Model
 
-## Tourist Demand Model **$T$**
+---
+
+## ✈️ Tourist Demand Model ($T$)
+The number of tourists evolves based on organic growth, government investment, and the deterrent effect of taxation:
 $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
-### Calculate Growth Rate **$g$**
-$$g_t = g_{base} + \eta \sqrt{M_t}$$
-### Calcilate Government Expenditure on Tourism Development **$M$**
-$$M_t = \lambda_t \cdot G_t$$
-### Calculate Government Revenue from Tourism Taxation **$G$**
-$$G_t = \tau_t \cdot R_t$$
-### Calculate Total Tourism Revenue **$R$**
-$$R_t = r \cdot T_t$$
 
-## Environmental Model **$E$**
+> **Sub-calculations:**
+> * **Growth Rate ($g$):** $g_t = g_{base} + \eta \sqrt{M_t}$
+> * **Govt. Investment ($M$):** $M_t = \lambda_t \cdot G_t$
+> * **Govt. Revenue ($G$):** $G_t = \tau_t \cdot R_t$
+> * **Total Revenue ($R$):** $R_t = r \cdot T_t$
+
+---
+
+## 🌲 Environmental Model ($E$)
+The environmental index accounts for natural recovery and the negative impact of tourism density:
 $$E_{t+1} = E_{sub,t} + z(1 - E_{sub,t}) - h\left(\frac{T_t}{T_{max}}\right)$$
-### Calculate **$E_{sub,t}$**
-$$E_{sub,t} = E_t + \alpha M_t$$
 
-## Resident Satisfaction Model **$Q$**
+> **Sub-calculation:**
+> * **Mitigated State ($E_{sub,t}$):** $E_{sub,t} = E_t + \alpha M_t$
+
+---
+
+## 🤝 Resident Satisfaction Model ($Q$)
+Social welfare is modeled as a balance between tourist volume proximity to an optimum, environmental health, and the local tax burden:
 $$Q_t = \omega_1 \left( 1 - \frac{|T_t - T_{opt}|}{T_{opt}} \right) + \omega_2 E_t - \omega_3 \tau_t$$
 
-## Calculate Total Tourism Profit **$P$**
+---
+
+## 💰 Tourism Profit Model ($P$)
+Net profit after accounting for fixed infrastructure and variable operational costs:
 $$P_t = R_t - (C_{fixed} + C_{variable} \cdot T_t)$$
 
-## Objective Function **$V$**
+---
+
+## 🎯 Global Objective Function ($V$)
+The optimizer seeks to maximize the weighted sum of profit, environment, and satisfaction over the entire simulation horizon:
 $$V = \sum_{t=1}^{Y} \left( \omega_4 \hat{P}_t + \omega_5 E_t + \omega_6 Q_t \right)$$
