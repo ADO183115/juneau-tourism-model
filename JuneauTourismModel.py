@@ -154,6 +154,7 @@ initial_guess = np.concatenate([np.ones(Y) * 0.05, np.ones(Y) * 0.2])
 bounds = [(0.0, 1.0)] * (2 * Y)
 
 # Simulate and optimize the model
+# Will return control variable values that output the maximum optimization value V over Y years
 print("Optimizing...")
 result = minimize(objective_function, initial_guess, args=(params,), method="L-BFGS-B", bounds=bounds)
 

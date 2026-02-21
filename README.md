@@ -46,6 +46,11 @@ omega_6: weight assigned to resident satisfaction when calculating V
 
 # Simulation Model
 ## Tourist Demand Model
-T<sub>next year</sub> = (1 * )
+$$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
+
+## Environmental Model
+$$E_{t+1} = E^{sub}_t + \rho(1 - E^{sub}_t) - h\left(\frac{T_t}{T_{max}}\right)$$
+## Resident Satisfaction Model
+$$Q_t = \omega_1 \left( 1 - \frac{|T_t - T_{opt}|}{T_{opt}} \right) + \omega_2 E_t - \omega_3 \tau_t$$
 
 # Objective Function
