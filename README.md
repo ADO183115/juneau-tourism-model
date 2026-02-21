@@ -5,44 +5,44 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 
 # Variables and Parameters
 ## State Variables
-T: # of tourists\
-E: environmental index\
-Q: resident satisfaction\
-R: revenue from tourism \
-G: government revenue from R\
-M: government investment into tourism development\
-P: total tourism profit after operating costs\
-g: growth rate of T\
-E_sub: environmental index after applying government intervention
+* **$T_t$**: # of tourists
+* **$E_t$**: environmental index
+* **$Q_t$**: resident satisfaction
+* **$R_t$**: revenue from tourism 
+* **$G_t$**: government revenue from $R$
+* **$M_t$**: government investment into tourism development
+* **$P_t$**: total tourism profit after operating costs
+* **$g_t$**: growth rate of $T$
+* **$E_{sub,t}$**: environmental index after applying government intervention
 
 ## Control Variables
-lambda: investment rate into tourism industry from government revenue\
-tau: Tax Rate
+* **$\lambda_t$**: investment rate into tourism industry from government revenue
+* **$\tau_t$**: Tax Rate
 
 ## Parameters
-Y: # of years to simulate\
-T_initial: # of tourists at year 0\
-T_max: maximum # of tourists the environment can handle without environmental degradation\
-T_opt: optimal # of tourists for resident satisfaction\
-E_initial: environmental index at year 0\
-g_base: base growth rate for # of tourists\
-\
-alpha: sensitivity of E_sub per unit of M\
-eta: sensitivity of g per unit of M ** 0.5\
-gamma: sensitivity of of T per unit of tau\
-r: revenue per tourist\
-z: natural recovery rate of E\
-h: sensitivity of E per unit of carrying capacity utilization\
-c_fixed: fixed operational cost\
-c_vairable: variable operational cost scaling with T\
-\
-omega_1: weight assigned to optimal tourists level when calculating Q\
-omega_2: weight assigned to environmental index when calculating Q\
-omega_3: weight assiged to taxation when calculating Q\
-\
-omega_4: weight assigned to profit scaled when calculating V\
-omega_5: weight assigned to environmental index when calculating V\
-omega_6: weight assigned to resident satisfaction when calculating V
+* **$Y$**: # of years to simulate
+* **$T_{initial}$**: # of tourists at year 0
+* **$T_{max}$**: maximum # of tourists the environment can handle without environmental degradation
+* **$T_{opt}$**: optimal # of tourists for resident satisfaction
+* **$E_{initial}$**: environmental index at year 0
+* **$g_{base}$**: base growth rate for # of tourists
+
+* **$\alpha$**: sensitivity of $E_{sub}$ per unit of $M$
+* **$\eta$**: sensitivity of $g$ per unit of $M^{0.5}$
+* **$\gamma$**: sensitivity of $T$ per unit of $\tau$
+* **$r$**: revenue per tourist
+* **$z$**: natural recovery rate of $E$
+* **$h$**: sensitivity of $E$ per unit of carrying capacity utilization
+* **$c_{fixed}$**: fixed operational cost
+* **$c_{variable}$**: variable operational cost scaling with $T$
+
+* **$\omega_1$**: weight assigned to optimal tourists level when calculating $Q$
+* **$\omega_2$**: weight assigned to environmental index when calculating $Q$
+* **$\omega_3$**: weight assiged to taxation when calculating $Q$
+
+* **$\omega_4$**: weight assigned to profit scaled when calculating $V$
+* **$\omega_5$**: weight assigned to environmental index when calculating $V$
+* **$\omega_6$**: weight assigned to resident satisfaction when calculating $V$
 
 # Simulation Model
 
