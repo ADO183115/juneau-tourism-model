@@ -10,8 +10,8 @@ Q: resident satisfaction
 R: revenue from tourism 
 G: government revenue from R
 M: government investment into tourism development
-g: 
-E_sub: 
+g: growth rate of T
+E_sub: environmental index after applying government intervention
 
 # Control Variables
 lambda: investment rate into tourism industry from government revenue
@@ -23,12 +23,13 @@ T_max: maximum # of tourists the environment can handle without environmental de
 T_opt: optimal # of tourists for resident satisfaction
 E_initial: environmental index at year 0
 g_base: base growth rate for 
-alpha
-eta
-gamma
-revenue_per_tourist
-recovery_rate
-h
+
+alpha: sensitivity in E_sub per unit of M
+eta: sensitivity of g per unit of M ** 0.5
+gamma: sensitivity of of T per unit of tau
+revenue_per_tourist: revenue per tourist
+recovery_rate: natural recovery rate of E
+h: 
 omega_1
 omega_2
 omega_3
