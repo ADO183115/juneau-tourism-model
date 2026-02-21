@@ -10,9 +10,9 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 | :--- | :--- | :--- | :--- |
 | **$T_t$** | # of tourists | **$M_t$** | Government investment |
 | **$E_t$** | Environmental index | **$P_t$** | Total tourism profit |
-| **$Q_t$** | Resident satisfaction | **$g_t$** | Growth rate of $T$ |
-| **$R_t$** | Revenue from tourism | **$E_{sub,t}$** | Post government intervention E |
-| **$G_t$** | Government revenue | | |
+| **$Q_t$** | Resident satisfaction | **$P_{scaled,t}$** | Total tourism profit scaled |
+| **$R_t$** | Revenue from tourism | **$g_t$** | Growth rate of $T$ |
+| **$G_t$** | Government revenue | **$E_{sub,t}$** | Post government intervention E |
 
 ### **Control Variables**
 | Symbol | Definition |
@@ -37,10 +37,8 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 
 # 3. Simulation Model
 
----
-
 ## ✈️ Tourist Demand Model ($T$)
-The number of tourists evolves based on organic growth, government investment, and the deterrent effect of taxation:
+The number of tourists evolves based on organic growth, government investment, and the deterrent effect of taxation:\
 $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
 
 > **Sub-calculations:**
@@ -49,29 +47,21 @@ $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
 > * **Govt. Revenue ($G$):** $G_t = \tau_t \cdot R_t$
 > * **Total Revenue ($R$):** $R_t = r \cdot T_t$
 
----
-
 ## 🌲 Environmental Model ($E$)
-The environmental index accounts for natural recovery and the negative impact of tourism density:
+The environmental index accounts for natural recovery and the negative impact of tourism density:\
 $$E_{t+1} = E_{sub,t} + z(1 - E_{sub,t}) - h\left(\frac{T_t}{T_{max}}\right)$$
 
 > **Sub-calculation:**
-> * **Mitigated State ($E_{sub,t}$):** $E_{sub,t} = E_t + \alpha M_t$
-
----
+> * **Mitigated State ($E_{sub,t}$):** $E_{sub,t} = E_t + \alpha \cdot M_t$
 
 ## 🤝 Resident Satisfaction Model ($Q$)
-Social welfare is modeled as a balance between tourist volume proximity to an optimum, environmental health, and the local tax burden:
+Social welfare is modeled as a balance between tourist volume proximity to an optimum, environmental health, and the local tax burden:\
 $$Q_t = \omega_1 \left( 1 - \frac{|T_t - T_{opt}|}{T_{opt}} \right) + \omega_2 E_t - \omega_3 \tau_t$$
 
----
-
 ## 💰 Tourism Profit Model ($P$)
-Net profit after accounting for fixed infrastructure and variable operational costs:
+Net profit after accounting for fixed infrastructure and variable operational costs:\
 $$P_t = R_t - (C_{fixed} + C_{variable} \cdot T_t)$$
 
----
-
 ## 🎯 Global Objective Function ($V$)
-The optimizer seeks to maximize the weighted sum of profit, environment, and satisfaction over the entire simulation horizon:
-$$V = \sum_{t=1}^{Y} \left( \omega_4 \hat{P}_t + \omega_5 E_t + \omega_6 Q_t \right)$$
+The optimizer seeks to maximize the weighted sum of profit, environment, and satisfaction over the entire simulation horizon:\
+$$V = \sum_{t=1}^{Y} \left( \omega_4 P_{scaled,t} + \omega_5 E_t + \omega_6 Q_t \right)$$
