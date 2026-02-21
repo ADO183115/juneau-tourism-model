@@ -8,7 +8,7 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 ### **State Variables**
 | Symbol | Definition | Symbol | Definition |
 | :--- | :--- | :--- | :--- |
-| **$T_t$** | # of tourists | **$M_t$** | Government investment |
+| **$T_t$** | # of tourists | **$M_t$** | Government reinvestment |
 | **$E_t$** | Environmental index | **$P_t$** | Total tourism profit |
 | **$Q_t$** | Resident satisfaction | **$P_{scaled,t}$** | Total tourism profit scaled |
 | **$R_t$** | Revenue from tourism | **$g_t$** | Growth rate of $T$ |
@@ -29,7 +29,7 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 | **Sensitivities** | **$\alpha, \eta, \gamma, z, h$** | Impact/sensitivity coefficients |
 | **Costs** | **$c_{fixed}, c_{variable}$** | Fixed and variable tourism operational costs |
 
-### **Optimization Weights ($\omega$)**
+### **Optimization Weights**
 | Target | Weights | Definition |
 | :--- | :--- | :--- |
 | **Resident Satisfaction $Q$** | **$\omega_1, \omega_2, \omega_3$** | Weights for $T$ volume gap, environment, and tax burden |
@@ -41,20 +41,18 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 The number of tourists evolves based on organic growth, government investment, and the deterrent effect of taxation:\
 $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
 
-> **Sub-calculations:**
-> * **Growth Rate ($g$):** $g_t = g_{base} + \eta \sqrt{M_t}$
-> * **Govt. Investment ($M$):** $M_t = \lambda_t \cdot G_t$
-> * **Govt. Revenue ($G$):** $G_t = \tau_t \cdot R_t$
-> * **Total Revenue ($R$):** $R_t = r \cdot T_t$
+> **Growth Rate ($g$):** $g_t = g_{base} + \eta \sqrt{M_t}$
+> **Govt. Investment ($M$):** $M_t = \lambda_t \cdot G_t$
+> **Govt. Revenue ($G$):** $G_t = \tau_t \cdot R_t$
+> **Total Revenue ($R$):** $R_t = r \cdot T_t$
 
 ## 🌲 Environmental Model ($E$)
 The environmental index accounts for natural recovery and the negative impact of tourism density:\
 $$E_{t+1} = E_{sub,t} + z(1 - E_{sub,t}) - h\left(\frac{T_t}{T_{max}}\right)$$
 
-> **Sub-calculation:**
-> * **Mitigated State ($E_{sub,t}$):** $E_{sub,t} = E_t + \alpha \cdot M_t$
+> **Mitigated State ($E_{sub,t}$):** $E_{sub,t} = E_t + \alpha \cdot M_t$
 
-## 🤝 Resident Satisfaction Model ($Q$)
+## ❤️ Resident Satisfaction Model ($Q$)
 Social welfare is modeled as a balance between tourist volume proximity to an optimum, environmental health, and the local tax burden:\
 $$Q_t = \omega_1 \left( 1 - \frac{|T_t - T_{opt}|}{T_{opt}} \right) + \omega_2 E_t - \omega_3 \tau_t$$
 

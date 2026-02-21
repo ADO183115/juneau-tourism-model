@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from scipy.optimize import minimize
 from tabulate import tabulate
 
@@ -80,6 +81,7 @@ def run_simulation(controls, params):
     P_t = np.zeros(Y)
 
     E_sub_t = np.zeros(Y)
+    R_t = np.zeros(Y)
     G_t = np.zeros(Y)
     M_t = np.zeros(Y)
     g_t = np.zeros(Y)
@@ -118,6 +120,7 @@ def run_simulation(controls, params):
         P_t[t] = P
 
         E_sub_t[t] = E_sub
+        R_t[t] = R
         G_t[t] = G
         M_t[t] = M
         g_t[t] = g
@@ -130,13 +133,13 @@ def run_simulation(controls, params):
         T = update_T(T, g, params["gamma"], tau)
         E = update_E(E_sub, params["z"], params["h"], T_t[t], params["T_max"])
 
-    return T_t, E_t, Q_t, P_t, E_sub_t, G_t, M_t, g_t, P_scaled_t, V_t
+    return T_t, E_t, Q_t, P_t, E_sub_t, R_t, G_t, M_t, g_t, P_scaled_t, V_t
 
 # --- 4. The Objective Function ---
 
 def objective_function(controls, params):
     # In order to calculate V, must run the simulation first
-    T_t, E_t, Q_t, P_t, E_sub_t, G_t, M_t, g_t, P_scaled_t, V_t = run_simulation(controls, params)
+    T_t, E_t, Q_t, P_t, E_sub_t, R_t, G_t, M_t, g_t, P_scaled_t, V_t = run_simulation(controls, params)
 
     # Cumulative optimization
     V = np.sum(V_t)
@@ -165,14 +168,24 @@ if result.success:
     lambd_opt = optimal_controls[Y:]
     
     # Run one last time to get the data for printing
-    T_fin, E_fin, Q_fin, P_fin, E_sub_t, G_fin, M_fin, g_fin, P_scaled_fin, V_fin = run_simulation(optimal_controls, params)
+    T_fin, E_fin, Q_fin, P_fin, E_sub_fin, R_fin, G_fin, M_fin, g_fin, P_scaled_fin, V_fin = run_simulation(optimal_controls, params)
 
-    data = [[t+1, T_fin[t], E_fin[t], P_fin[t], Q_fin[t], V_fin[t]] for t in range(Y)]
-    headers = ["Year", "Tourists T", "Environment E", "Profit P", "Resident Satisfaction Q", "Optimization Value V"]
+    data = [[t+1, T_fin[t], E_fin[t], R_fin[t], P_fin[t], Q_fin[t], V_fin[t]] for t in range(Y)]
+    headers = ["Year", "Tourists T", "Environment E", "Revenue R", "Profit P", "Resident Satisfaction Q", "Optimization Value V"]
     print(tabulate(data, headers=headers, tablefmt="grid", floatfmt=".4f"))
 
-    data = [[t+1, tau_opt[t], lambd_opt[t], G_fin[t], M_fin[t], E_sub_t[t], g_fin[t], P_scaled_fin[t]] for t in range(Y)]
+    data = [[t+1, tau_opt[t], lambd_opt[t], G_fin[t], M_fin[t], E_sub_fin[t], g_fin[t], P_scaled_fin[t]] for t in range(Y)]
     headers = ["Year", "tau", "lambda", "Government Revenue from Tax G", "Government Expenditure on Tourism M", "E_sub_t", "g", "P_scaled"]
     print(tabulate(data, headers=headers, tablefmt="grid", floatfmt=".4f"))
 else:
     print("Optimization Failed:", result.message)
+
+# Saving results from the simulation to a .csv
+results = {
+    "Year": list(range(1, Y + 1)),
+    "T": T_fin, "E": E_fin, "E_sub": E_sub_fin, "Q": Q_fin, "R": R_fin, "P": P_fin,
+    "P_scaled": P_scaled_fin, "G": G_fin, "M": M_fin, "g": g_fin, "V": V_fin
+}
+
+df = pd.DataFrame(results)
+df.to_csv("simulation_results.csv", index =False)
