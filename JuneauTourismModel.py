@@ -87,8 +87,8 @@ def run_simulation(controls, params):
 
     V_t = np.zeros(Y)
 
-    T_current = params["T_initial"]
-    E_current = params["E_initial"]
+    T = params["T_initial"]
+    E = params["E_initial"]
 
     # Run the model for the amount of years that need to be calculated
     for t in range(Y):
@@ -96,23 +96,23 @@ def run_simulation(controls, params):
         lambd = lambd_t[t]
         
         # Tourism Model
-        R = calculate_R(params["revenue_per_tourist"], T_current)
+        R = calculate_R(params["revenue_per_tourist"], T)
         G = calculate_G(tau, R)
         M = calculate_M(lambd, G)
 
         # Environmental Model
-        E_sub = calculate_E_sub(E_current, params["alpha"], M)
+        E_sub = calculate_E_sub(E, params["alpha"], M)
 
         # Resident Satisfaction Model
-        Q = calculate_Q(params["omega_1"], T_current, params["T_opt"], params["omega_2"], E_current, params["omega_3"], tau)
+        Q = calculate_Q(params["omega_1"], T, params["T_opt"], params["omega_2"], E, params["omega_3"], tau)
 
         # Other Metrics
-        P = calculate_P(R, params["c_fixed"], params["c_variable"], T_current)
+        P = calculate_P(R, params["c_fixed"], params["c_variable"], T)
         g = calculate_g(params["g_base"], params["eta"], M)
 
         # Store States
-        T_t[t] = T_current
-        E_t[t] = E_current
+        T_t[t] = T
+        E_t[t] = E
 
         Q_t[t] = Q
         P_t[t] = P
@@ -124,11 +124,11 @@ def run_simulation(controls, params):
         P_scaled_t[t] = P_t[t] / P_t[0]
 
         # Calculate Optimization Value
-        V_t[t] = calculate_V(params["omega_4"], P_scaled_t[t], params["omega_5"], E_current, params["omega_6"], Q)
+        V_t[t] = calculate_V(params["omega_4"], P_scaled_t[t], params["omega_5"], E, params["omega_6"], Q)
 
         # Calculate Next Step
-        T_current = update_T(T_current, g, params["gamma"], tau)
-        E_current = update_E(E_sub, params["recovery_rate"], params["h"], T_t[t], params["T_max"])
+        T = update_T(T, g, params["gamma"], tau)
+        E = update_E(E_sub, params["recovery_rate"], params["h"], T_t[t], params["T_max"])
 
     return T_t, E_t, Q_t, P_t, E_sub_t, G_t, M_t, g_t, P_scaled_t, V_t
 
@@ -139,7 +139,7 @@ def objective_function(controls, params):
     T_t, E_t, Q_t, P_t, E_sub_t, G_t, M_t, g_t, P_scaled_t, V_t = run_simulation(controls, params)
 
     # Cumulative optimization
-    V = calculate_V(params["omega_4"], P_scaled_t, params["omega_5"], E_t, params["omega_6"], Q_t)
+    V = np.sum(V_t)
 
     return -V
 

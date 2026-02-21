@@ -1,4 +1,4 @@
-# **🚧 This project is currently under construction. More information will be added soon. 🚧**
+## 🚧 This project is currently under construction. More information will be added soon. 🚧
 
 # juneau-tourism-model
 A multi-objective optimization model of the tourism industry in Juneau, Alaska. Implements a discrete-time state-space framework and uses Scipy's optimization library. Optimizaes taxation and investment rate while balancing objectives such as profit, environment, and resident satisfaction. Designed to identify sustainable equilibrium points.
@@ -13,11 +13,11 @@ G: government revenue from R\
 M: government investment into tourism development\
 P: total tourism profit after operating costs\
 g: growth rate of T\
-E_sub: environmental index after applying government intervention\
+E_sub: environmental index after applying government intervention
 
 ## Control Variables
 lambda: investment rate into tourism industry from government revenue\
-tau: Tax Rate\
+tau: Tax Rate
 
 ## Parameters
 Y: # of years to simulate\
@@ -42,10 +42,10 @@ omega_3: weight assiged to taxation when calculating Q\
 \
 omega_4: weight assigned to profit scaled when calculating V\
 omega_5: weight assigned to environmental index when calculating V\
-omega_6: weight assigned to resident satisfaction when calculating V\
+omega_6: weight assigned to resident satisfaction when calculating V
 
 # Simulation Model
-# Tourist Demand Model
+## Tourist Demand Model
 T<sub>next year</sub> = (1 * )
 
 # Objective Function
