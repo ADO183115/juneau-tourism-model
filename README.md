@@ -63,3 +63,30 @@ $$P_t = R_t - (C_{fixed} + C_{variable} \cdot T_t)$$
 ## 🎯 Global Objective Function ($V$)
 The optimizer seeks to maximize the weighted sum of profit, environment, and satisfaction over the entire simulation horizon:\
 $$V = \sum_{t=1}^{Y} \left( \omega_4 P_{scaled,t} + \omega_5 E_t + \omega_6 Q_t \right)$$
+
+# 4. Interpretations
+The goal of this model was to simulate the tourism indsutry of Juneau, Alaska for the next 5 years. The following is the data the model outputs:
+|   Year |       T |        E |        Q |       P |        V |
+|-------:|--------:|---------:|---------:|--------:|---------:|
+|      1 | 1.67    | 0.5      | 0.97472  | 69.9001 | 0.884832 |
+|      2 | 1.70464 | 0.721667 | 0.996712 | 75.499  | 0.95838  |
+|      3 | 1.73426 | 0.715893 | 0.973737 | 80.2853 | 0.957135 |
+|      4 | 1.75544 | 0.710957 | 0.960088 | 83.7082 | 0.957753 |
+|      5 | 1.78353 | 0.707427 | 0.951349 | 88.248  | 0.964793 |
+It can be seen that the model successfully balances various optimization parameters.
+The aggregate system utility V changed from 0.884832 to 0.964793, an increase of 9% while the environment say an increase of over 40%!
+This model is able to replicate real-life dynamics into mathematical equations, proving itself to be an effective policy-making tool.
+
+# 5. Limitations
+Despite this, this model has many limitations.
+## Hidden Sacrifices
+Over the 5 year period, while the results of T, E, Q, P, and V look amazing, the results for G and M show the hidden costs of those results. The reason why G and M crashes during the last year is most likely because we do not care about Year 6. Therefore, the model sacrifices what it thinks will not matter in Year 6 to raise V as much as possible. In order to get a good tax and reinvestment rate values for Year 5, one possible solution would be to set Y as 6. Thus, we would get valid results from Year 1~5 and ignore the results for Year 6.
+|   Year |        G |         M |
+|-------:|---------:|----------:|
+|      1 | 19.114   | 16.9909   |
+|      2 | 18.2802  |  9.43181  |
+|      3 | 22.0487  |  9.47024  |
+|      4 | 19.8648  |  9.64671  |
+|      5 |  1.90992 |  0.381984 |
+## Arbitrary Values for Parameters and Weights
+Many values for parameters and weights were chosen arbitrarily. For example, **$E_{initial}$** was set to 0.5, a middle value between 0.0 and 1.0 as it was an index and I was not able to figure out a good way to choose a value for this. A possible improvement for this model would be to do more research to find plausible values for the parameters and weights instead of choosing them at random.
