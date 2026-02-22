@@ -80,7 +80,7 @@ This model is able to replicate real-life dynamics into mathematical equations, 
 
 # 5. Limitations
 
-## Hidden Sacrifices
+## 👼 Hidden Sacrifices
 Over the 5 year period, while the results of T, E, Q, P, and V look amazing, the results for G and M show the hidden costs of those results. The reason why G and M crashes during the last year is most likely because we do not care about Year 6. Therefore, the model sacrifices what it thinks will not matter in Year 6 to raise V as much as possible. In order to get a good tax and reinvestment rate values for Year 5, one possible solution would be to set Y as 6. Thus, we would get valid results from Year 1~5 and ignore the results for Year 6.
 
 |   Year |        G |         M |
@@ -91,5 +91,5 @@ Over the 5 year period, while the results of T, E, Q, P, and V look amazing, the
 |      4 | 19.8648  |  9.64671  |
 |      5 |  1.90992 |  0.381984 |
 
-## Arbitrary Values for Parameters and Weights
+## ⁉️ Arbitrary Values for Parameters and Weights
 Many values for parameters and weights were chosen arbitrarily. For example, **$E_{initial}$** was set to 0.5, a middle value between 0.0 and 1.0 as it was an index and I was not able to figure out a good way to choose a value for this. A possible improvement for this model would be to do more research to find plausible values for the parameters and weights instead of choosing them at random.
