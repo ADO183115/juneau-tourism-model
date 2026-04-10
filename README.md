@@ -37,7 +37,7 @@ A multi-objective optimization model of the tourism industry in Juneau, Alaska. 
 
 # 3. Simulation Model
 
-## ✈️ Tourist Demand Model ($T$)
+## Tourist Demand Model ($T$)
 The number of tourists evolves based on organic growth, government investment, and the deterrent effect of taxation:\
 $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
 
@@ -46,21 +46,21 @@ $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
 > **Govt. Revenue ($G$):** $G_t = \tau_t \cdot R_t$
 > **Total Revenue ($R$):** $R_t = r \cdot T_t$
 
-## 🌲 Environmental Model ($E$)
+## Environmental Model ($E$)
 The environmental index accounts for natural recovery and the negative impact of tourism density:\
 $$E_{t+1} = E_{sub,t} + z(1 - E_{sub,t}) - h\left(\frac{T_t}{T_{max}}\right)$$
 
 > **Mitigated State ($E_{sub,t}$):** $E_{sub,t} = E_t + \alpha \cdot M_t$
 
-## ❤️ Resident Satisfaction Model ($Q$)
+## Resident Satisfaction Model ($Q$)
 Social welfare is modeled as a balance between tourist volume proximity to an optimum, environmental health, and the local tax burden:\
 $$Q_t = \omega_1 \left( 1 - \frac{|T_t - T_{opt}|}{T_{opt}} \right) + \omega_2 E_t - \omega_3 \tau_t$$
 
-## 💰 Tourism Profit Model ($P$)
+## Tourism Profit Model ($P$)
 Net profit after accounting for fixed infrastructure and variable operational costs:\
 $$P_t = R_t - (C_{fixed} + C_{variable} \cdot T_t)$$
 
-## 🎯 Global Objective Function ($V$)
+## Global Objective Function ($V$)
 The optimizer seeks to maximize the weighted sum of profit, environment, and satisfaction over the entire simulation horizon:\
 $$V = \sum_{t=1}^{Y} \left( \omega_4 P_{scaled,t} + \omega_5 E_t + \omega_6 Q_t \right)$$
 
@@ -80,7 +80,7 @@ This model is able to replicate real-life dynamics into mathematical equations, 
 
 # 5. Limitations
 
-## 👼 Hidden Sacrifices
+## Hidden Sacrifices
 Over the 5 year period, while the results of T, E, Q, P, and V look amazing, the results for G and M show the hidden costs of those results. The reason why G and M crashes during the last year is most likely because we do not care about Year 6. Therefore, the model sacrifices what it thinks will not matter in Year 6 to raise V as much as possible. In order to get a good tax and reinvestment rate values for Year 5, one possible solution would be to set Y as 6. Thus, we would get valid results from Year 1~5 and ignore the results for Year 6.
 
 |   Year |        G |         M |
@@ -91,5 +91,5 @@ Over the 5 year period, while the results of T, E, Q, P, and V look amazing, the
 |      4 | 19.8648  |  9.64671  |
 |      5 |  1.90992 |  0.381984 |
 
-## ⁉️ Arbitrary Values for Parameters and Weights
+## Arbitrary Values for Parameters and Weights
 Many values for parameters and weights were chosen arbitrarily. For example, **$E_{initial}$** was set to 0.5, a middle value between 0.0 and 1.0 as it was an index and I was not able to figure out a good way to choose a value for this. A possible improvement for this model would be to do more research to find plausible values for the parameters and weights instead of choosing them at random.
