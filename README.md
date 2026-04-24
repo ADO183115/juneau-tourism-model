@@ -42,8 +42,11 @@ The number of tourists evolves based on organic growth, government investment, a
 $$T_{t+1} = T_t (1 + g_t - \gamma \tau_t)$$
 
 > **Growth Rate ($g$):** $g_t = g_{base} + \eta \sqrt{M_t}$
+>
 > **Govt. Investment ($M$):** $M_t = \lambda_t \cdot G_t$
+>
 > **Govt. Revenue ($G$):** $G_t = \tau_t \cdot R_t$
+>
 > **Total Revenue ($R$):** $R_t = r \cdot T_t$
 
 ## Environmental Model ($E$)
@@ -80,8 +83,10 @@ This model is able to replicate real-life dynamics into mathematical equations, 
 
 # 5. Limitations
 
-## Hidden Sacrifices
-Over the 5 year period, while the results of T, E, Q, P, and V look amazing, the results for G and M show the hidden costs of those results. The reason why G and M crashes during the last year is most likely because we do not care about Year 6. Therefore, the model sacrifices what it thinks will not matter in Year 6 to raise V as much as possible. In order to get a good tax and reinvestment rate values for Year 5, one possible solution would be to set Y as 6. Thus, we would get valid results from Year 1~5 and ignore the results for Year 6.
+## Sacrifices for a Finite Horizon
+While the 5-year results for T, E, Q, P, and V appear strong, the trajectories of G and M reveal the underlying costs driving those outcomes. The sharp decline observed in G and M during Year 5 is likely attributable to the model's finite horizon. Because Year 6 is outside the optimization window, the model does not prioritize G and M in order to maximize V in Year 5.
+
+To obtain reliable values for G and M in Year 5, one recommended approach is to extend the time horizon to Y = 6. This ensures that Years 1 through 5 produce valid and stable results, while Year 6 serves as a buffer period whose outputs can be ignored.
 
 |   Year |        G |         M |
 |-------:|---------:|----------:|
@@ -92,4 +97,4 @@ Over the 5 year period, while the results of T, E, Q, P, and V look amazing, the
 |      5 |  1.90992 |  0.381984 |
 
 ## Arbitrary Values for Parameters and Weights
-Many values for parameters and weights were chosen arbitrarily. For example, **$E_{initial}$** was set to 0.5, a middle value between 0.0 and 1.0 as it was an index and I was not able to figure out a good way to choose a value for this. A possible improvement for this model would be to do more research to find plausible values for the parameters and weights instead of choosing them at random.
+Several parameter and weight values were not derived from real-world data. For instance, **$E_{initial}$** was set to 0.5 as a neutral midpoint on the [0.0, 1.0] index scale, given the absence of a principled method for its selection. A potential avenue for improvement would be to conduct further research to identify empirically grounded estimates for these parameters, rather than relying on arbitrary assignments. Alternatively, statistical inference methods such as maximum likelihood estimation or Bayesian inference, could be employed to derive parameter values from observed tourism data, rather than relying on arbitrary assignments.
