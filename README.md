@@ -1,5 +1,3 @@
-## 🚧 This project is currently under construction. More information will be added soon. 🚧
-
 # 1. juneau-tourism-model
 A multi-objective optimization model of the tourism industry in Juneau, Alaska. Implements a discrete-time state-space framework and uses Scipy's optimization library. Optimizaes taxation and investment rate while balancing objectives such as profit, environment, and resident satisfaction. Designed to identify sustainable equilibrium points.
 
@@ -97,4 +95,6 @@ To obtain reliable values for G and M in Year 5, one recommended approach is to 
 |      5 |  1.90992 |  0.381984 |
 
 ## Arbitrary Values for Parameters and Weights
-Several parameter and weight values were not derived from real-world data. For instance, **$E_{initial}$** was set to 0.5 as a neutral midpoint on the [0.0, 1.0] index scale, given the absence of a principled method for its selection. A potential avenue for improvement would be to conduct further research to identify empirically grounded estimates for these parameters, rather than relying on arbitrary assignments. Alternatively, statistical inference methods such as maximum likelihood estimation or Bayesian inference, could be employed to derive parameter values from observed tourism data, rather than relying on arbitrary assignments.
+Several parameter and weight values were not derived from real-world data. For instance, **$E_{initial}$** was set to 0.5 as a neutral midpoint on the [0.0, 1.0] index scale, given the absence of a principled method for its selection.
+
+A potential avenue for improvement would be to conduct further research to identify empirically grounded estimates for these parameters, rather than relying on arbitrary assignments. Alternatively, statistical inference methods such as maximum likelihood estimation or Bayesian inference, could be employed to derive parameter values from observed tourism data, rather than relying on arbitrary assignments.
